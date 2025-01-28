@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SubmitFormButton = () => (
   <button
-    className="bg-tertiary-color group hover:ring-tertiary-color hover:bg-secondary-color flex h-12 cursor-pointer items-center justify-center rounded-lg duration-300 hover:ring md:hover:ring-2"
+    className="bg-tertiary-color group min-w-12 hover:ring-tertiary-color hover:bg-secondary-color flex h-12 cursor-pointer items-center justify-center rounded-lg duration-300 hover:ring md:hover:ring-2"
     type="submit"
   >
     <FontAwesomeIcon
