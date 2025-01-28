@@ -2,20 +2,23 @@
 
 @theme {
   /* colors */
+  --color-base-color: #ffffff;
   --color-primary-color: #f15156;
   --color-primary-color-dark: #e44449;
   --color-primary-color-light: #fdeced;
   --color-secondary-color: #0d3b66;
   --color-tertiary-color: #f4d35e;
 
-  /* font */
-  --font-primary: "Nunito", serif;
-
   /* font-size */
-  --font-size-small: 1.6rem;
-  --font-size-base: 2rem;
-  --font-size-medium: 2.4rem;
-  --font-size-large: 3rem;
-  --font-size-extra-large: 4.5rem;
-  --font-size-huge: 6rem;
+  --text-extra-small-size: 0.8rem;
+  --text-small-size: 1.2rem;
+  --text-base-size: 1.8rem;
+  --text-medium-size: 2.2rem;
+  --text-large-size: 2.8rem;
+  --text-extra-large-size: 4rem;
+  --text-huge-size: 6rem;
+
+  /* default settings */
+  --default-font-family: "Nunito", serif;
+  --default-transition-duration: 0.3s;
 }
