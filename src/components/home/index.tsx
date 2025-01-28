@@ -1,5 +1,7 @@
+import { Header } from "./header";
+
 export const Home = () => (
-    <section className="h-screen w-screen bg-primary-color">
-        <h1>Home</h1>
-    </section>
-)
+  <section className="bg-primary-color text-base-color h-screen w-screen">
+    <Header />
+  </section>
+);
