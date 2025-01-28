@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const button = tv({
-  base: "flex-1 cursor-pointer rounded-sm px-4 whitespace-nowrap duration-300 hover:ring",
+  base: "flex-1 cursor-pointer rounded-sm px-4 whitespace-nowrap duration-300 hover:ring md:text-base-size md:px-6 md:hover:ring-2",
   variants: {
     color: {
       primary:

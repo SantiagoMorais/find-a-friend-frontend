@@ -10,8 +10,8 @@ export const Logo = () => (
     <img
       src={logo}
       alt="Logo"
-      className="size-10 brightness-0 invert duration-300"
+      className="size-10 brightness-0 invert duration-300 md:size-16"
     />
-    <h1 className="text-small-size font-bold">FindAFriend</h1>
+    <h1 className="text-small-size font-bold md:text-base-size">FindAFriend</h1>
   </Link>
 );
