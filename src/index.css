@@ -9,13 +9,13 @@
   --color-tertiary-color: #f4d35e;
 
   /* font */
-  --font-primary: "'Nunito', serif";
+  --font-primary: "Nunito", serif;
 
   /* font-size */
-  --font-size-small: "1.6rem";
-  --font-size-base: "2rem";
-  --font-size-medium: "2.4rem";
-  --font-size-large: "3rem";
-  --font-size-extra-large: "4.5rem";
-  --font-size-huge: "6rem";
+  --font-size-small: 1.6rem;
+  --font-size-base: 2rem;
+  --font-size-medium: 2.4rem;
+  --font-size-large: 3rem;
+  --font-size-extra-large: 4.5rem;
+  --font-size-huge: 6rem;
 }
