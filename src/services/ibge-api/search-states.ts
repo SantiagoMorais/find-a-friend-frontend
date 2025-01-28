@@ -1,4 +1,4 @@
-import { TStates } from "@/core/types";
+import { TStates } from "@/core/types/states";
 import axios from "axios";
 
 export const searchStates = async (): Promise<TStates[] | null> => {
