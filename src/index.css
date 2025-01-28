@@ -18,7 +18,9 @@
   --text-extra-large-size: 4rem;
   --text-huge-size: 6rem;
 
+  /* drop shadow */
+  --drop-shadow-white: 0 0 3px rgba(255, 255, 255, 0.3);
+
   /* default settings */
   --default-font-family: "Nunito", serif;
-  --default-transition-duration: 0.3s;
 }
