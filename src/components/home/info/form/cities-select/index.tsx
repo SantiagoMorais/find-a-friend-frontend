@@ -14,14 +14,14 @@ export const CitiesSelect = ({
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) return <CitiesWarning message="⌛ Loading..."/>;
-  if (error) return <CitiesWarning message="❌ Error: Try later"/>;
+  if (isLoading) return <CitiesWarning message="⌛ Loading..." />;
+  if (error) return <CitiesWarning message="❌ Error: Try later" />;
 
   return (
     <select
       id="cities"
       name="cities"
-      className="bg-primary-color-dark flex h-12 w-full max-w-full flex-1 items-center justify-center rounded-xl"
+      className="bg-primary-color-dark md:text-base-size flex h-12 w-full max-w-full flex-1 items-center justify-center rounded-xl md:w-fit md:max-w-fit"
     >
       {data?.map((city) => (
         <option

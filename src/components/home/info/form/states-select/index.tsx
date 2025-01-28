@@ -27,7 +27,7 @@ export const StatesSelect = ({
     <select
       id="states"
       name="states"
-      className="flex size-12 items-center justify-center rounded-xl border"
+      className="flex size-12 items-center justify-center rounded-xl border md:text-small-size"
       onChange={handleChange}
     >
       {data?.map((state) => (
