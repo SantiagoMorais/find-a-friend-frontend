@@ -1,5 +1,6 @@
 import { searchStates } from "@/services/ibge-api/search-states";
 import { useQuery } from "@tanstack/react-query";
+import { StatesIsLoading } from "./states-is-loading";
 
 export const StatesSelect = ({
   setSelectedState,
@@ -12,7 +13,7 @@ export const StatesSelect = ({
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <StatesIsLoading />;
   if (error) return <p>Error</p>;
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
