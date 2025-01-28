@@ -1,4 +1,4 @@
-import logo from "@/assets/imgs/logo.png";
+import logo from "@/assets/imgs/logo.webp";
 import { routes } from "@/utils/routes";
 import { Link } from "react-router-dom";
 
