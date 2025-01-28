@@ -1,6 +1,6 @@
 import { searchStates } from "@/services/ibge-api/search-states";
 import { useQuery } from "@tanstack/react-query";
-import { StatesIsLoading } from "./states-is-loading";
+import { StatesWarning } from "./states-warning";
 
 export const StatesSelect = ({
   setSelectedState,
@@ -13,8 +13,8 @@ export const StatesSelect = ({
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) return <StatesIsLoading />;
-  if (error) return <p>Error</p>;
+  if (isLoading) return <StatesWarning message="⌛" />;
+  if (error) return <StatesWarning message="❌" />;
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = data?.find(
