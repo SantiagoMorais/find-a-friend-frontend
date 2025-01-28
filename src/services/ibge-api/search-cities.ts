@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const searchCities = async (
   stateId: number
-): Promise<TCities | null> => {
+): Promise<TCities[] | null> => {
   const cities = await axios
-    .get(
+    .get<TCities[]>(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/distritos`,
       {
         params: {
