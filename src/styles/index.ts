@@ -13,3 +13,17 @@ export const button = tv({
 export const errorMessage = tv({
   base: "text-sm text-primary-color-dark pt-1",
 });
+
+export const formInput = tv({
+  base: "border-secondary-color/50 text-secondary-color bg-secondary-color/10 w-full border px-2 py-1 font-normal md:p-4",
+  variants: {
+    type: {
+      common: "rounded-md",
+      password: "rounded-l-md border-r-0",
+    },
+  },
+});
+
+export const formLabel = tv({
+  base: "flex flex-col gap-2 font-bold",
+});

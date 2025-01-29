@@ -13,7 +13,7 @@
   --text-extra-small-size: 0.8rem;
   --text-small-size: 1.2rem;
   --text-base-size: 1.6rem;
-  --text-medium-size: 2.0rem;
+  --text-medium-size: 2rem;
   --text-large-size: 2.4rem;
   --text-extra-large-size: 4rem;
   --text-huge-size: 6rem;
@@ -23,4 +23,16 @@
 
   /* default settings */
   --default-font-family: "Nunito", serif;
+}
+
+/* Remove the increment/decrement buttons on input fields with type number, on Chrome, Safari and Edge browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove the increment/decrement buttons on input fields with type number, on Firefox browser */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
