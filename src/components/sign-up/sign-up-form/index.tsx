@@ -1,8 +1,10 @@
+import { IResponseReturn } from "@/core/types/api-return";
 import {
   registerOrganizationSchema,
   TRegisterOrganization,
 } from "@/core/types/handle-register";
-import { formInput, formLabel } from "@/styles";
+import { errorMessage, formInput, formLabel } from "@/styles";
+import { handleRegister } from "@/utils/handle-register";
 import { routes } from "@/utils/routes";
 import {
   faEye,
@@ -32,12 +34,50 @@ export const SignUpForm = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleRegisterOrganization = async (data: TRegisterOrganization) => {
+    setIsLoading(true);
+    const {
+      addressNumber,
+      confirmPassword,
+      email,
+      name,
+      owner,
+      password,
+      whatsApp,
+      zipCode,
+    } = data;
+
+    const registerOrg: IResponseReturn = await handleRegister({
+      addressNumber,
+      confirmPassword,
+      email,
+      name,
+      owner,
+      password,
+      whatsApp,
+      zipCode,
+    });
+
+    if (registerOrg.response?.type === "error") {
+      alert(registerOrg.response.message);
+      setIsLoading(false);
+      return;
+    }
+
+    alert(registerOrg.response?.message);
+    setIsLoading(false);
+    return redirect("/sign-in");
+  };
+
   return (
     <section className="text-secondary-color flex w-full max-w-xl flex-1 flex-col gap-4 py-10 md:h-full">
       <h2 className="text-base-size md:text-large-size mb-4 text-center leading-none font-bold md:mb-auto">
         Register your organization!
       </h2>
-      <form className="flex w-full flex-col gap-4">
+      <form
+        className="flex w-full flex-col gap-4"
+        onSubmit={handleSubmit(handleRegisterOrganization)}
+      >
         <label htmlFor="owner" className={formLabel()}>
           Owners name
           <input
@@ -47,6 +87,9 @@ export const SignUpForm = () => {
             {...register("owner")}
             className={formInput({ type: "common" })}
           />
+          {errors.owner && (
+            <p className={errorMessage()}>{errors.owner.message}</p>
+          )}
         </label>
         <label htmlFor="email" className={formLabel()}>
           Email
@@ -57,6 +100,22 @@ export const SignUpForm = () => {
             {...register("email")}
             className={formInput({ type: "common" })}
           />
+          {errors.email && (
+            <p className={errorMessage()}>{errors.email.message}</p>
+          )}
+        </label>
+        <label htmlFor="name" className={formLabel()}>
+          Organization name
+          <input
+            type="text"
+            id="name"
+            placeholder="Ex: John Doe"
+            {...register("name")}
+            className={formInput({ type: "common" })}
+          />
+          {errors.name && (
+            <p className={errorMessage()}>{errors.name.message}</p>
+          )}
         </label>
         <label htmlFor="zipCode" className={formLabel()}>
           Zip Code
@@ -67,6 +126,9 @@ export const SignUpForm = () => {
             {...register("zipCode")}
             className={formInput({ type: "common" })}
           />
+          {errors.zipCode && (
+            <p className={errorMessage()}>{errors.zipCode.message}</p>
+          )}
         </label>
         <label htmlFor="addressNumber" className={formLabel()}>
           Address number
@@ -77,6 +139,9 @@ export const SignUpForm = () => {
             {...register("addressNumber")}
             className={formInput({ type: "common" })}
           />
+          {errors.addressNumber && (
+            <p className={errorMessage()}>{errors.addressNumber.message}</p>
+          )}
         </label>
         <label htmlFor="whatsApp" className={formLabel()}>
           WhatsApp
@@ -87,6 +152,9 @@ export const SignUpForm = () => {
             {...register("whatsApp")}
             className={formInput({ type: "common" })}
           />
+          {errors.whatsApp && (
+            <p className={errorMessage()}>{errors.whatsApp.message}</p>
+          )}
         </label>
         <label htmlFor="password" className={formLabel()}>
           Password
@@ -109,6 +177,9 @@ export const SignUpForm = () => {
               />
             </button>
           </div>
+          {errors.password && (
+            <p className={errorMessage()}>{errors.password.message}</p>
+          )}
         </label>
         <label htmlFor="confirmPassword" className={formLabel()}>
           confirmPassword
@@ -131,6 +202,9 @@ export const SignUpForm = () => {
               />
             </button>
           </div>
+          {errors.confirmPassword && (
+            <p className={errorMessage()}>{errors.confirmPassword.message}</p>
+          )}
         </label>
 
         <button
