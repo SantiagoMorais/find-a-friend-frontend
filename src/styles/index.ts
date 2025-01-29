@@ -9,3 +9,7 @@ export const button = tv({
     },
   },
 });
+
+export const errorMessage = tv({
+  base: "text-sm text-primary-color-dark pt-1",
+});
