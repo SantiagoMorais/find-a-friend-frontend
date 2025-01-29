@@ -1,18 +1,18 @@
 import { IResponse, IResponseReturn } from "@/core/types/api-return";
-import { TLogin } from "@/core/types/handle-login";
+import { TRegisterOrganization } from "@/core/types/handle-register";
 import { env } from "@/env";
 import axios, { AxiosError } from "axios";
 
-export const handleLogin = async (data: TLogin): Promise<IResponseReturn> => {
+export const handleRegister = async (
+  data: TRegisterOrganization
+): Promise<IResponseReturn> => {
   let response: IResponse | undefined = undefined;
 
   await axios
-    .post<TLogin>(`${env.VITE_DATABASE_URL}/login`, data, {
-      withCredentials: true,
-    })
+    .post<TRegisterOrganization>(`${env.VITE_DATABASE_URL}/organizations`, data)
     .then((res) => {
       response = {
-        message: "Successfully login.",
+        message: "Successfully registered.",
         status: res.status,
         type: "success",
       };
