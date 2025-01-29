@@ -37,6 +37,7 @@ export const SignInForm = () => {
 
     if (loginUser.response?.type === "error") {
       alert(loginUser.response.message);
+      setIsLoading(false);
       return;
     }
 
