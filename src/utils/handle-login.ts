@@ -1,13 +1,13 @@
 import { IResponse } from "@/core/types/api-return";
-import { ILogin } from "@/core/types/handle-login";
+import { TLogin } from "@/core/types/handle-login";
 import { env } from "@/env";
 import axios, { AxiosError } from "axios";
 
-export const handleLogin = async (data: ILogin) => {
+export const handleLogin = async (data: TLogin) => {
   let response: IResponse | undefined = undefined;
 
   await axios
-    .post<ILogin>(`${env.VITE_DATABASE_URL}/login`, data, {
+    .post<TLogin>(`${env.VITE_DATABASE_URL}/login`, data, {
       withCredentials: true,
     })
     .then((res) => {

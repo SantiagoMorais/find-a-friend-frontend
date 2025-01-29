@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ILogin, loginSchema } from "@/core/types/handle-login";
+import { TLogin, loginSchema } from "@/core/types/handle-login";
 import { handleLogin } from "@/utils/handle-login";
 import { IResponseReturn } from "@/core/types/api-return";
 import { errorMessage } from "@/styles";
@@ -19,7 +19,7 @@ export const SignInForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILogin>({
+  } = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -27,7 +27,7 @@ export const SignInForm = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLoginOrganization = async (data: ILogin) => {
+  const handleLoginOrganization = async (data: TLogin) => {
     setIsLoading(true);
     const { email, password } = data;
     const loginUser: IResponseReturn = await handleLogin({

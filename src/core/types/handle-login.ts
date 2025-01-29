@@ -8,4 +8,4 @@ export const loginSchema = z.object({
     .max(15, "The password must have at most 15 characters"),
 });
 
-export type ILogin = z.infer<typeof loginSchema>;
+export type TLogin = z.infer<typeof loginSchema>;
