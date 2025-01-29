@@ -1,19 +1,21 @@
+import { useAuth } from "@/contexts/auth-context";
+import { ILoginResponseReturn } from "@/core/types/api-return";
+import { TLogin, loginSchema } from "@/core/types/handle-login";
+import { errorMessage } from "@/styles";
+import { handleLogin } from "@/utils/handle-login";
 import { routes } from "@/utils/routes";
 import { faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TLogin, loginSchema } from "@/core/types/handle-login";
-import { handleLogin } from "@/utils/handle-login";
-import { IResponseReturn } from "@/core/types/api-return";
-import { errorMessage } from "@/styles";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const redirect = useNavigate();
+  const { setAuthentication } = useAuth();
 
   const {
     register,
@@ -30,18 +32,24 @@ export const SignInForm = () => {
   const handleLoginOrganization = async (data: TLogin) => {
     setIsLoading(true);
     const { email, password } = data;
-    const loginUser: IResponseReturn = await handleLogin({
+    const loginUser: ILoginResponseReturn = await handleLogin({
       email,
       password,
     });
 
-    if (loginUser.response?.type === "error") {
+    if (loginUser.response === undefined) {
+      alert("Unexpected Error");
+      setIsLoading(false);
+      return;
+    }
+
+    if (loginUser.response?.type === "error" || !loginUser.token) {
       alert(loginUser.response.message);
       setIsLoading(false);
       return;
     }
 
-    // setIsAuthenticated(true);
+    setAuthentication({ authenticated: true, token: loginUser.token });
     alert(loginUser.response?.message);
     setIsLoading(false);
     return redirect("/");
