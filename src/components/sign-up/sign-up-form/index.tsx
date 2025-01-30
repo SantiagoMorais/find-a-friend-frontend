@@ -1,4 +1,3 @@
-import { IResponseReturn } from "@/core/types/api-return";
 import {
   registerOrganizationSchema,
   TRegisterOrganization,
@@ -47,26 +46,26 @@ export const SignUpForm = () => {
       zipCode,
     } = data;
 
-    const registerOrg: IResponseReturn = await handleRegister({
-      addressNumber,
-      confirmPassword,
-      email,
-      name,
-      owner,
-      password,
-      whatsApp,
-      zipCode,
-    });
-
-    if (registerOrg.response?.type === "error") {
-      alert(registerOrg.response.message);
+    try {
+      await handleRegister({
+        addressNumber,
+        confirmPassword,
+        email,
+        name,
+        owner,
+        password,
+        whatsApp,
+        zipCode,
+      });
+      alert("Successfully logged!");
+      setIsLoading(false);
+      return redirect("/sign-in");
+    } catch (err) {
+      console.error(err);
+      alert("Invalid credentials");
       setIsLoading(false);
       return;
     }
-
-    alert(registerOrg.response?.message);
-    setIsLoading(false);
-    return redirect("/sign-in");
   };
 
   return (

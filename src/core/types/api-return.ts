@@ -8,10 +8,6 @@ export const responseSchema = z.object({
 
 export type IResponse = z.infer<typeof responseSchema>;
 
-export type IResponseReturn = {
-  response: IResponse | undefined;
-};
-
 export type ILoginResponseReturn = {
   response: IResponse | undefined;
   token: string | undefined;
