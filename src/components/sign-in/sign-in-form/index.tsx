@@ -1,5 +1,4 @@
 import { useAuth } from "@/contexts/auth-context";
-import { ILoginResponseReturn } from "@/core/types/api-return";
 import { TLogin, loginSchema } from "@/core/types/handle-login";
 import { errorMessage } from "@/styles";
 import { handleLogin } from "@/utils/handle-login";
@@ -15,7 +14,7 @@ export const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const redirect = useNavigate();
-  const { setAuthentication } = useAuth();
+  const { setToken } = useAuth();
 
   const {
     register,
@@ -32,25 +31,19 @@ export const SignInForm = () => {
   const handleLoginOrganization = async (data: TLogin) => {
     setIsLoading(true);
     const { email, password } = data;
-    const loginUser: ILoginResponseReturn = await handleLogin({
+    const { error, token } = await handleLogin({
       email,
       password,
     });
 
-    if (loginUser.response === undefined) {
-      alert("Unexpected Error");
+    if (error || !token) {
+      alert(error);
       setIsLoading(false);
       return;
     }
 
-    if (loginUser.response?.type === "error" || !loginUser.token) {
-      alert(loginUser.response.message);
-      setIsLoading(false);
-      return;
-    }
-
-    setAuthentication({ authenticated: true, token: loginUser.token });
-    alert(loginUser.response?.message);
+    setToken(token);
+    alert("Successfully logged.");
     setIsLoading(false);
     return redirect("/");
   };
