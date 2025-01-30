@@ -4,19 +4,32 @@ import axios, { AxiosError } from "axios";
 
 export const handleLogin = async (
   data: TLogin
-): Promise<{ token: string | null }> => {
-  let token: string | null = null;
+): Promise<{ token: string | null; error: string | null }> => {
+  try {
+    const response = await axios.post<{ token: string }>(
+      `${env.VITE_DATABASE_URL}/login`,
+      data,
+      {
+        withCredentials: true,
+      }
+    );
 
-  await axios
-    .post<{ token: string }>(`${env.VITE_DATABASE_URL}/login`, data, {
-      withCredentials: true,
-    })
-    .then((res) => {
-      token = res.data.token;
-    })
-    .catch((err: AxiosError) => {
-      console.log(err);
-    });
+    const { token } = response.data;
 
-  return { token };
+    return { token, error: null };
+  } catch (err) {
+    const error = err as AxiosError;
+
+    if (error.response) {
+      if (error.response.status === 400)
+        return { token: null, error: "E-mail or password invalid." };
+      if (error.response.status === 500)
+        return {
+          token: null,
+          error: "Internal server error. Try again later.",
+        };
+    }
+  }
+
+  return { token: null, error: "An unexpected error occurred" };
 };
