@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { handleRefreshToken } from "@/utils/handle-refresh-token";
+import { routes } from "@/utils/routes";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 
 type TAuthContext = {
   token: string | null;
@@ -11,17 +13,29 @@ const AuthContext = createContext<TAuthContext>({
 });
 
 export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem("find-a-friend-token");
-  });
+  const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem("find-a-friend-token", token);
-    } else {
-      localStorage.removeItem("find-a-friend-token");
+  useLayoutEffect(() => {
+    const storedToken = localStorage.getItem("org-token");
+
+    if (storedToken) {
+      setToken(storedToken);
+      return;
     }
-  }, [token]);
+
+    try {
+      const refreshToken = async () => {
+        await handleRefreshToken();
+      };
+
+      refreshToken();
+    } catch (error) {
+      console.log("Error to renovate token:", error);
+      setToken(null);
+      localStorage.removeItem("org-token");
+      window.location.href = routes.signIn;
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>
