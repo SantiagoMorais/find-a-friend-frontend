@@ -1,28 +1,30 @@
-import { createContext, useContext, useState } from "react";
-
-type TAuthentication = {
-  authenticated: boolean;
-  token: string | null;
-};
+import { createContext, useContext, useEffect, useState } from "react";
 
 type TAuthContext = {
-  authentication: TAuthentication;
-  setAuthentication: React.Dispatch<React.SetStateAction<TAuthentication>>;
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const AuthContext = createContext<TAuthContext>({
-  authentication: { authenticated: false, token: null },
-  setAuthentication: () => {},
+  token: null,
+  setToken: () => {},
 });
 
 export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const [authentication, setAuthentication] = useState<TAuthentication>({
-    authenticated: false,
-    token: null,
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem("find-a-friend-token");
   });
 
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("find-a-friend-token", token);
+    } else {
+      localStorage.removeItem("find-a-friend-token");
+    }
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ authentication, setAuthentication }}>
+    <AuthContext.Provider value={{ token, setToken }}>
       {children}
     </AuthContext.Provider>
   );
