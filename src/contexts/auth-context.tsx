@@ -1,6 +1,6 @@
 import { handleRefreshToken } from "@/utils/handle-refresh-token";
 import { routes } from "@/utils/routes";
-import { createContext, useContext, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type TAuthContext = {
   token: string | null;
@@ -15,7 +15,7 @@ const AuthContext = createContext<TAuthContext>({
 export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [token, setToken] = useState<string | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const storedToken = localStorage.getItem("org-token");
 
     if (storedToken) {
