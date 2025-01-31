@@ -43,9 +43,10 @@ export const SignInForm = () => {
     }
 
     setToken(token);
+    localStorage.setItem("org-token", token);
     alert("Successfully logged.");
     setIsLoading(false);
-    return redirect("/");
+    return redirect(routes.home);
   };
 
   return (

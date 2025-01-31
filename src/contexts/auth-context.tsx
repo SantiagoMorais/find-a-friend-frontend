@@ -1,5 +1,6 @@
+import { setupAxiosInterceptor } from "@/functions/axios-interceptor";
 import { handleRefreshToken } from "@/functions/handle-refresh-token";
-import { routes } from "@/utils/routes";
+import { verifyTokenValidity } from "@/functions/verify-token-validity";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type TAuthContext = {
@@ -18,24 +19,27 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("org-token");
 
+    const checkToken = async () => verifyTokenValidity(storedToken, setToken);
+    const refreshToken = async () => {
+      await handleRefreshToken(setToken);
+    };
+
     if (storedToken) {
-      setToken(storedToken);
-      return;
-    }
-
-    try {
-      const refreshToken = async () => {
-        await handleRefreshToken();
-      };
-
+      checkToken().then((isValid) => {
+        if (!isValid) refreshToken();
+      });
+    } else {
       refreshToken();
-    } catch (error) {
-      console.log("Error to renovate token:", error);
-      setToken(null);
-      localStorage.removeItem("org-token");
-      window.location.href = routes.signIn;
     }
   }, []);
+
+  useEffect(() => {
+    const cleanupInterceptor = () => setupAxiosInterceptor(setToken);
+
+    return () => {
+      cleanupInterceptor();
+    };
+  }, [setToken]);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>
