@@ -3,7 +3,7 @@ import {
   TRegisterOrganization,
 } from "@/core/types/handle-register";
 import { errorMessage, formInput, formLabel } from "@/styles";
-import { handleRegister } from "@/utils/handle-register";
+import { handleRegister } from "@/functions/handle-register";
 import { routes } from "@/utils/routes";
 import {
   faEye,

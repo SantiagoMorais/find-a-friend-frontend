@@ -1,4 +1,4 @@
-import { handleRefreshToken } from "@/utils/handle-refresh-token";
+import { handleRefreshToken } from "@/functions/handle-refresh-token";
 import { routes } from "@/utils/routes";
 import { createContext, useContext, useEffect, useState } from "react";
 

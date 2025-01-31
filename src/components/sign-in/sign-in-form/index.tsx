@@ -1,7 +1,7 @@
 import { useAuth } from "@/contexts/auth-context";
 import { TLogin, loginSchema } from "@/core/types/handle-login";
 import { errorMessage } from "@/styles";
-import { handleLogin } from "@/utils/handle-login";
+import { handleLogin } from "@/functions/handle-login";
 import { routes } from "@/utils/routes";
 import { faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
