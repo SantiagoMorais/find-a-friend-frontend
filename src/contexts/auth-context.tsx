@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   }, []);
 
   useEffect(() => {
-    const cleanupInterceptor = () => setupAxiosInterceptor(setToken);
+    const cleanupInterceptor = setupAxiosInterceptor(setToken);
 
     return () => {
       cleanupInterceptor();

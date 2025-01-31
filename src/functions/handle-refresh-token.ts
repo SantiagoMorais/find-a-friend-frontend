@@ -9,6 +9,7 @@ export const handleRefreshToken = async (
     .patch<{ token: string }>(`${env.VITE_DATABASE_URL}/token/refresh`)
     .then((res) => {
       const { token } = res.data;
+      localStorage.setItem("org-token", token);
       return token;
     })
     .catch((err) => {

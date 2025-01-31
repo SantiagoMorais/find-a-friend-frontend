@@ -5,7 +5,7 @@ import { routes } from "@/utils/routes";
 export const setupAxiosInterceptor = (
   setToken: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
-  axios.interceptors.response.use(
+  const interceptor = axios.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
@@ -26,4 +26,7 @@ export const setupAxiosInterceptor = (
       return Promise.reject(error);
     }
   );
+  return () => {
+    axios.interceptors.response.eject(interceptor);
+  };
 };
