@@ -1,6 +1,7 @@
 import { TLogin } from "@/core/types/handle-login";
 import { env } from "@/env";
 import axios, { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 export const handleLogin = async (
   data: TLogin
@@ -15,6 +16,8 @@ export const handleLogin = async (
     );
 
     const { token } = response.data;
+    const expirationTime = 10 / 60 / 24 //10 minutes
+    Cookies.set("org-token", token, {expires: expirationTime });
 
     return { token, error: null };
   } catch (err) {
