@@ -4,6 +4,9 @@
 
 # Dependencies
 
+- [js-cookie](https://www.npmjs.com/package/@types/js-cookie): A simple, lightweight JavaScript API for handling cookies.
+
+
 # Dev Dependencies
 
 # Summary
