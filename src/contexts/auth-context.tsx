@@ -1,7 +1,7 @@
 import { setupAxiosInterceptor } from "@/functions/axios-interceptor";
 import { handleRefreshToken } from "@/functions/handle-refresh-token";
-import { verifyTokenValidity } from "@/functions/verify-token-validity";
 import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 type TAuthContext = {
   token: string | null;
@@ -17,20 +17,22 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("org-token");
-
-    const checkToken = async () => verifyTokenValidity(storedToken, setToken);
+    const storedToken: string | undefined = Cookies.get("orgToken");
     const refreshToken = async () => {
-      await handleRefreshToken(setToken);
+      const { data } = await handleRefreshToken(setToken);
+      return data;
     };
 
-    if (storedToken) {
-      checkToken().then((isValid) => {
-        if (!isValid) refreshToken();
-      });
-    } else {
-      refreshToken();
-    }
+    const initializeToken = async () => {
+      storedToken
+        ? setToken(storedToken)
+        : async () => {
+            const newToken = await refreshToken();
+            newToken ? setToken(newToken) : setToken(null);
+          };
+    };
+
+    initializeToken();
   }, []);
 
   useEffect(() => {
