@@ -6,6 +6,8 @@ export const button = tv({
     color: {
       primary:
         "bg-tertiary-color text-secondary-color hover:text-tertiary-color hover:bg-secondary-color",
+      secondary:
+        "bg-secondary-color text-tertiary-color hover:text-secondary-color hover:bg-tertiary-color",
     },
   },
 });
