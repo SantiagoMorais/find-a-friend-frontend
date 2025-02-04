@@ -1,4 +1,5 @@
 import { TCities } from "@/core/types/cities";
+import { productionAmbience } from "@/utils/variables";
 import axios from "axios";
 
 export const searchCities = async (
@@ -17,7 +18,7 @@ export const searchCities = async (
       return res.data;
     })
     .catch((err) => {
-      console.error(err);
+      if (!productionAmbience) console.error(err);
       return null;
     });
 

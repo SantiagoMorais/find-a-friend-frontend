@@ -2,9 +2,12 @@ import { TLogin } from "@/core/types/handle-login";
 import { env } from "@/env";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import { setupAxiosInterceptor } from "./axios-interceptor";
+import React from "react";
 
 export const handleLogin = async (
-  data: TLogin
+  data: TLogin,
+  setToken: React.Dispatch<React.SetStateAction<string | null>>
 ): Promise<{ token: string | null; error: string | null }> => {
   try {
     const response = await axios.post<{ token: string }>(
@@ -16,8 +19,9 @@ export const handleLogin = async (
     );
 
     const { token } = response.data;
-    const expirationTime = 10 / 60 / 24 //10 minutes
-    Cookies.set("org-token", token, {expires: expirationTime });
+    const expirationTime = 10 / 60 / 24; //10 minutes
+    Cookies.set("orgToken", token, { expires: expirationTime });
+    setupAxiosInterceptor(setToken, token);
 
     return { token, error: null };
   } catch (err) {

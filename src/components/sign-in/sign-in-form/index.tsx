@@ -1,7 +1,7 @@
 import { useAuth } from "@/contexts/auth-context";
 import { TLogin, loginSchema } from "@/core/types/handle-login";
-import { errorMessage } from "@/styles";
 import { handleLogin } from "@/functions/handle-login";
+import { errorMessage } from "@/styles";
 import { routes } from "@/utils/routes";
 import { faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,10 +31,13 @@ export const SignInForm = () => {
   const handleLoginOrganization = async (data: TLogin) => {
     setIsLoading(true);
     const { email, password } = data;
-    const { error, token } = await handleLogin({
-      email,
-      password,
-    });
+    const { error, token } = await handleLogin(
+      {
+        email,
+        password,
+      },
+      setToken
+    );
 
     if (error || !token) {
       alert(error);
@@ -42,8 +45,6 @@ export const SignInForm = () => {
       return;
     }
 
-    setToken(token);
-    localStorage.setItem("org-token", token);
     alert("Successfully logged.");
     setIsLoading(false);
     return redirect(routes.home);

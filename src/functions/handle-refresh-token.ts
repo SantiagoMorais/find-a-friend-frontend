@@ -1,30 +1,32 @@
 import { env } from "@/env";
-import { routes } from "@/utils/routes";
+import { productionAmbience } from "@/utils/variables";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 export const handleRefreshToken = async (
   setToken: React.Dispatch<React.SetStateAction<string | null>>
-): Promise<{ data: string | null }> => {
-  const { data } = await axios
-    .patch<{ token: string }>(`${env.VITE_DATABASE_URL}/token/refresh`)
-    .then((res) => {
-      const { token } = res.data;
-      const expirationTime = 10 / 60 / 24; //10 minutes
+): Promise<{ token: string | null }> => {
+  const cookie = Cookies.get("orgToken");
 
-      Cookies.set("orgToken", token, { expires: expirationTime });
+  try {
+    const res = await axios.patch<{ token: string }>(
+      `${env.VITE_DATABASE_URL}/token/refresh`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    const { token } = res.data;
+    const expirationTime = 10 / 60 / 24; //10 minutes
 
-      return { data: token };
-    })
-    .catch((err) => {
-      console.error(err);
+    setToken(token);
+    Cookies.set("orgToken", token, { expires: expirationTime });
 
-      setToken(null);
-      Cookies.remove("orgToken");
-
-      window.location.href = routes.signIn;
-      return { data: null };
-    });
-
-  return { data };
+    return { token };
+  } catch (err) {
+    if (!productionAmbience) console.error("Error updating token:", err);
+    setToken(null);
+    if (cookie) Cookies.remove("orgToken");
+    return { token: null };
+  }
 };

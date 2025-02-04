@@ -1,9 +1,11 @@
-import axios from "axios";
-import { handleRefreshToken } from "./handle-refresh-token";
 import { routes } from "@/utils/routes";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { handleRefreshToken } from "./handle-refresh-token";
 
 export const setupAxiosInterceptor = (
-  setToken: React.Dispatch<React.SetStateAction<string | null>>
+  setToken: React.Dispatch<React.SetStateAction<string | null>>,
+  storedToken: string | null
 ) => {
   const interceptor = axios.interceptors.response.use(
     (response) => response,
@@ -14,18 +16,20 @@ export const setupAxiosInterceptor = (
         originalRequest._isRetry = true;
 
         try {
-          const newToken = await handleRefreshToken(setToken);
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          const { token } = await handleRefreshToken(setToken);
+          originalRequest.headers.Authorization = `Bearer ${token}`;
           return axios(originalRequest);
-        } catch (refreshError) {
-          setToken(null);
-          localStorage.removeItem("org-token");
+        } catch {
+          Cookies.remove("orgToken");
           window.location.href = routes.signIn;
         }
       }
       return Promise.reject(error);
     }
   );
+
+  if (storedToken) axios.defaults.headers.Authorization = `Bearer ${storedToken}`;
+
   return () => {
     axios.interceptors.response.eject(interceptor);
   };

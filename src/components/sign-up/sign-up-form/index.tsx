@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { productionAmbience } from "@/utils/variables";
 
 export const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -61,7 +62,7 @@ export const SignUpForm = () => {
       setIsLoading(false);
       return redirect("/sign-in");
     } catch (err) {
-      console.error(err);
+      if (!productionAmbience) console.error(err);
       alert("Invalid credentials");
       setIsLoading(false);
       return;

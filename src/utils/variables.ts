@@ -1,0 +1,1 @@
+export const productionAmbience: boolean = import.meta.env.PROD;

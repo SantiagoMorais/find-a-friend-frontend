@@ -1,4 +1,5 @@
 import { TStates } from "@/core/types/states";
+import { productionAmbience } from "@/utils/variables";
 import axios from "axios";
 
 export const searchStates = async (): Promise<TStates[] | null> => {
@@ -15,7 +16,7 @@ export const searchStates = async (): Promise<TStates[] | null> => {
       return res.data;
     })
     .catch((err) => {
-      console.error(err);
+      if (!productionAmbience) console.error(err);
       return null;
     });
 
