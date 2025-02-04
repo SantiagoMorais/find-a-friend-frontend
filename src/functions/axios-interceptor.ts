@@ -25,7 +25,7 @@ export const setupAxiosInterceptor = (
         }
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   if (storedToken) axios.defaults.headers.Authorization = `Bearer ${storedToken}`;

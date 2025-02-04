@@ -2,7 +2,6 @@ import { TLogin } from "@/core/types/handle-login";
 import { env } from "@/env";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { setupAxiosInterceptor } from "./axios-interceptor";
 import React from "react";
 
 export const handleLogin = async (
@@ -21,11 +20,12 @@ export const handleLogin = async (
     const { token } = response.data;
     const expirationTime = 10 / 60 / 24; //10 minutes
     Cookies.set("orgToken", token, { expires: expirationTime });
-    setupAxiosInterceptor(setToken, token);
+    setToken(token);
 
     return { token, error: null };
   } catch (err) {
     const error = err as AxiosError;
+    setToken(null);
 
     if (error.response) {
       if (error.response.status === 400)

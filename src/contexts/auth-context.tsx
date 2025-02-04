@@ -1,7 +1,13 @@
 import { setupAxiosInterceptor } from "@/functions/axios-interceptor";
 import { handleRefreshToken } from "@/functions/handle-refresh-token";
 import Cookies from "js-cookie";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 type TAuthContext = {
   token: string | null;
@@ -21,17 +27,22 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
     if (storedToken) {
       setToken(storedToken);
-      setupAxiosInterceptor(setToken, storedToken);
     } else {
       const getRefreshToken = async () => {
-        const { token } = await handleRefreshToken(setToken);
-        if (token) {
-          setupAxiosInterceptor(setToken, token);
-        } else return;
+        try {
+          const { token } = await handleRefreshToken(setToken);
+          setToken(token);
+        } catch {
+          setToken(null);
+        }
       };
       getRefreshToken();
     }
   }, []);
+
+  useLayoutEffect(() => {
+    if (token) setupAxiosInterceptor(setToken, token);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>
