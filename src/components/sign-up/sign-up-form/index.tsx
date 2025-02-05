@@ -148,7 +148,7 @@ export const SignUpForm = () => {
           <input
             type="number"
             id="whatsApp"
-            placeholder="Ex: 123"
+            placeholder="Ex: 32 988886666"
             {...register("whatsApp")}
             className={formInput({ type: "common" })}
           />

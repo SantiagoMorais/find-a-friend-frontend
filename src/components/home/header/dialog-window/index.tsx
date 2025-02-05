@@ -12,6 +12,7 @@ export const DialogWindow = ({ openModal, setOpenModal }: TDialogWindow) => {
 
   const handleLogoutSession = async () => {
     await handleLogout(setToken);
+    setOpenModal(false);
     route(routes.home);
   };
 

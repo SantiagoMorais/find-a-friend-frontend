@@ -9,7 +9,9 @@ export const LoggedButtons = () => (
       <Link to={routes.signIn} className={button({ color: "primary" })}>
         Sign In
       </Link>
-      <button className={button({ color: "primary" })}>Sign Up</button>
+      <Link to={routes.signUp} className={button({ color: "primary" })}>
+        Sign Up
+      </Link>
     </div>
   </>
 );
