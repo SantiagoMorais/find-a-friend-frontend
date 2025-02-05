@@ -1,10 +1,10 @@
-import { SignOutButton } from "@/components/ui/sign-out-button";
+import { TDialogWindow } from "@/core/types/components/dialog-window";
 import { THandleOrganizationProfile } from "@/core/types/handle-organization-profile";
 import { handleOrganizationProfile } from "@/functions/handle-organization-profile";
 import { button } from "@/styles";
 import { useEffect, useState } from "react";
 
-export const NotLoggedButtons = () => {
+export const NotLoggedButtons = ({ setOpenModal }: TDialogWindow) => {
   const [orgData, setOrgData] = useState<THandleOrganizationProfile | null>(
     null
   );
@@ -25,7 +25,12 @@ export const NotLoggedButtons = () => {
       </h2>
       <div className="flex justify-between gap-2">
         <button className={button({ color: "primary" })}>Register pets</button>
-        <SignOutButton />
+        <button
+          className={button({ color: "primary" })}
+          onClick={() => setOpenModal(true)}
+        >
+          Sign Out
+        </button>
       </div>
     </>
   );
