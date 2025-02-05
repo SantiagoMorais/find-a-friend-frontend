@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const handleOrganizationProfile =
   async (): Promise<THandleOrganizationProfile | null> => {
-    return await axios
+    const response = await axios
       .get<THandleOrganizationProfile>(
         `${env.VITE_DATABASE_URL}/organizations/profile`
       )
@@ -17,4 +17,6 @@ export const handleOrganizationProfile =
           console.log("Error getting organization profile:", err);
         return null;
       });
+
+    return response;
   };

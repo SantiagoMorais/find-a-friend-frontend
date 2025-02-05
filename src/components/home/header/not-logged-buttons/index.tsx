@@ -16,7 +16,7 @@ export const NotLoggedButtons = ({ setOpenModal }: TDialogWindow) => {
     };
 
     handleGetOrgData();
-  }, [orgData]);
+  }, []);
 
   return (
     <>
