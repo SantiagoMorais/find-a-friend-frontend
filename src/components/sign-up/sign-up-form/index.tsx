@@ -48,7 +48,7 @@ export const SignUpForm = () => {
     } = data;
 
     try {
-      await handleRegister({
+      const { error } = await handleRegister({
         addressNumber,
         confirmPassword,
         email,
@@ -58,14 +58,20 @@ export const SignUpForm = () => {
         whatsApp,
         zipCode,
       });
-      alert("Successfully logged!");
-      setIsLoading(false);
+
+      if (error) {
+        alert(error);
+        return;
+      }
+
+      alert("Successfully registered!");
       return redirect("/sign-in");
     } catch (err) {
       if (!productionAmbience) console.error(err);
-      alert("Invalid credentials");
-      setIsLoading(false);
+      alert(err);
       return;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -208,6 +214,7 @@ export const SignUpForm = () => {
         </label>
 
         <button
+          disabled={isLoading}
           type="submit"
           className="text-base-color bg-secondary-color cursor:pointer mt-8 w-full cursor-pointer rounded-lg p-4 text-center font-bold duration-300 hover:scale-95 hover:opacity-80"
         >
